@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# PHPStorm
+.idea
+
+# PHPUnit / PHPDoc
+phpunit.xml
+phpdoc.xml
+build
+
+# Composer
+vendor
+composer.lock

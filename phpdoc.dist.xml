@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <title>Best Buy SDK</title>
+    <parser>
+        <target>build/doc</target>
+    </parser>
+    <transformer>
+        <target>build/doc</target>
+    </transformer>
+    <transformations>
+        <template name="clean"/>
+    </transformations>
+    <files>
+        <directory>./src</directory>
+    </files>
+</phpdoc>
