@@ -191,6 +191,28 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting the debug value
+     */
+    public function testSetters()
+    {
+        $client = new Client('123');
+        $client->setCurlOptions([CURLOPT_CONNECTTIMEOUT => 30]);
+        $client->addCurlOption(CURLOPT_CONNECTTIMEOUT_MS, 3000);
+        $client->setAssociative(true);
+        $client->setDebug(true);
+
+        $reflection = new \ReflectionClass($client);
+        $prop = $reflection->getProperty('config');
+        $prop->setAccessible(true);
+        $config = $prop->getValue($client);
+
+        $this->assertTrue($config['associative']);
+        $this->assertEquals($config['curl_options'][CURLOPT_CONNECTTIMEOUT_MS], 3000);
+        $this->assertEquals($config['curl_options'][CURLOPT_CONNECTTIMEOUT], 30);
+        $this->assertTrue($config['debug']);
+    }
+
+    /**
      * Gets the generated URL from protected method (used in the mock client)
      *
      * @return string

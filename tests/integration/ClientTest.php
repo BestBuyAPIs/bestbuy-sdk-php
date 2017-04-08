@@ -68,7 +68,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $openBox = $this->client->openBox(6354884);
 
         $this->assertEquals(
-            "https://api.bestbuy.com/beta/products/6354884/openBox?apiKey={$_SERVER['BBY_API_KEY']}",
+            "https://api.bestbuy.com/beta/products/6354884/openBox?apiKey={$_SERVER['BBY_API_KEY']}&format=json",
             $openBox->metadata->context->canonicalUrl
         );
 
@@ -122,7 +122,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $recommendations = $this->client->recommendations(Client::RECOMMENDATIONS_TRENDING);
 
         $this->assertEquals(
-            "https://api.bestbuy.com/beta/products/trendingViewed?apiKey={$_SERVER['BBY_API_KEY']}",
+            "https://api.bestbuy.com/beta/products/trendingViewed?apiKey={$_SERVER['BBY_API_KEY']}&format=json",
             $recommendations->metadata->context->canonicalUrl
         );
 
@@ -149,10 +149,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $stores = $this->client->stores(611);
 
-        $this->assertEquals(
-            'Eden Prairie',
-            $stores->name
-        );
+        $this->assertEquals(611, $stores->storeId);
 
         $this->throttle();
     }

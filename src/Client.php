@@ -63,7 +63,6 @@ class Client implements LoggerAwareInterface
         'key' => '',
         'debug' => false,
         'curl_options' => [
-            CURLOPT_RETURNTRANSFER => false,
             CURLOPT_HTTPHEADER => [
                 'User-Agent' => 'bestbuy-sdk-php/1.0.0;php'
             ]
@@ -102,6 +101,17 @@ class Client implements LoggerAwareInterface
 
             $this->config = array_merge($this->config, $options);
         }
+    }
+
+    /**
+     * Adds a curl option to use for future requests
+     *
+     * @param int $curlOpt The curl option to add for future requests
+     * @param mixed $value The value to set for this curl option
+     */
+    public function addCurlOption($curlOpt, $value)
+    {
+        $this->config['curl_options'][$curlOpt] = $value;
     }
 
     /**
@@ -243,6 +253,36 @@ class Client implements LoggerAwareInterface
     public function reviews($search = '', array $responseConfig = [])
     {
         return $this->simpleEndpoint('reviews', $search, $responseConfig);
+    }
+
+    /**
+     * Sets the associative config value
+     *
+     * @param bool $associative Whether to return the response as an associative array (defaults to \StdClass)
+     */
+    public function setAssociative($associative)
+    {
+        $this->config['associative'] = (bool)$associative;
+    }
+
+    /**
+     * Sets the curl options to use for future requests
+     *
+     * @param array $curlOpts The curl options to use for the request
+     */
+    public function setCurlOptions(array $curlOpts)
+    {
+        $this->config['curl_options'] = $curlOpts;
+    }
+
+    /**
+     * Sets whether to run in debug mode
+     *
+     * @param bool $debug Whether to run in debug mode
+     */
+    public function setDebug($debug)
+    {
+        $this->config['debug'] = (bool)$debug;
     }
 
     /**
