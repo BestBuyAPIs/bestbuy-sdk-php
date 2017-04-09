@@ -1,15 +1,7 @@
 {
     "name": "bestbuy/bestbuy",
     "description": "High level PHP client for the Best Buy API",
-    "keywords": [
-        "best buy",
-        "bestbuy",
-        "bbyopen",
-        "api",
-        "retail",
-        "electronics",
-        "product reviews"
-    ],
+    "keywords": ["best buy", "bestbuy", "bbyopen", "api", "retail", "electronics", "product reviews"],
     "authors": [{
         "name": "Troy McCabe",
         "email": "troymccabe@gmail.com"

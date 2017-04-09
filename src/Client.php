@@ -62,11 +62,7 @@ class Client implements LoggerAwareInterface
     protected $config = [
         'key' => '',
         'debug' => false,
-        'curl_options' => [
-            CURLOPT_HTTPHEADER => [
-                'User-Agent' => 'bestbuy-sdk-php/1.0.0;php'
-            ]
-        ],
+        'curl_options' => [],
         'associative' => false
     ];
 
@@ -324,9 +320,9 @@ class Client implements LoggerAwareInterface
         // Verify the client has a key
         if (!$this->config['key']) {
             throw new AuthorizationException(
-                'A Best Buy developer API key is required. Register for one at ' .
+                'A Best Buy Developer API key is required. Register for one at ' .
                 'developer.bestbuy.com, call new `\BestBuy\Client(YOUR_API_KEY)`, or ' .
-                'specify a BBY_API_KEY system environment variable.'
+                'specify a `BBY_API_KEY` system environment variable.'
             );
         }
 
@@ -362,7 +358,8 @@ class Client implements LoggerAwareInterface
             [
                 CURLOPT_FAILONERROR => true,
                 CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_RETURNTRANSFER => true
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => ['User-Agent' => "bestbuy-sdk-php/1.0.2;php"]
             ] + $this->config['curl_options']
         );
 
