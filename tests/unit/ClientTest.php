@@ -33,8 +33,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->apiKey = $_SERVER['BBY_API_KEY'];
-        $this->client = $this->getMock(Client::class, ['doRequest']);
+        $this->apiKey = getenv('BBY_API_KEY');
+        $this->client = $this->getMock(Client::class, ['doRequest'], [$this->apiKey]);
         $this->client->expects($this->any())
             ->method('doRequest')
             ->willReturnCallback([$this, 'getGeneratedUrl']);
@@ -46,6 +46,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         // test no key, string key, array + key
+        $_SERVER['BBY_API_KEY'] = $this->apiKey;
         $clients = [new Client(), new Client($this->apiKey), new Client(['key' => $this->apiKey])];
         foreach ($clients as $client) {
             $reflection = new \ReflectionClass($client);
@@ -183,10 +184,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testNoKey()
     {
-        unset($_SERVER['BBY_API_KEY']);
-
         $client = new Client();
-
         $client->products();
     }
 

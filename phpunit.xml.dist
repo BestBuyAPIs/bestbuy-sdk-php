@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="./tests/bootstrap.php" colors="true">
-    <php>
-        <server name="BBY_API_KEY" value="YOUR_API_KEY" />
-    </php>
     <testsuites>
         <testsuite name="integration">
             <directory>./tests/integration</directory>

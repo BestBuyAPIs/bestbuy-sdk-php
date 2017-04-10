@@ -16,6 +16,11 @@ use Psr\Log\NullLogger;
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var string
+     */
+    protected $apiKey;
+
+    /**
      * @var Client
      */
     protected $client;
@@ -25,7 +30,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->client = new Client(['debug' => true, 'key' => $_SERVER['BBY_API_KEY']]);
+        $this->apiKey = getenv('BBY_API_KEY');
+        $this->client = new Client(['debug' => true, 'key' => $this->apiKey]);
         $this->client->setLogger(new NullLogger());
     }
 
@@ -37,7 +43,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $availability = $this->client->availability(6354884, 611);
 
         $this->assertEquals(
-            "/v1/products(sku in(6354884))+stores(storeId in(611))?format=json&apiKey={$_SERVER['BBY_API_KEY']}",
+            "/v1/products(sku in(6354884))+stores(storeId in(611))?format=json&apiKey={$this->apiKey}",
             $availability->canonicalUrl
         );
         $this->assertEquals(0, count($availability->products));
@@ -68,7 +74,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $openBox = $this->client->openBox(6354884);
 
         $this->assertEquals(
-            "https://api.bestbuy.com/beta/products/6354884/openBox?apiKey={$_SERVER['BBY_API_KEY']}&format=json",
+            "https://api.bestbuy.com/beta/products/6354884/openBox?apiKey={$this->apiKey}&format=json",
             $openBox->metadata->context->canonicalUrl
         );
 
@@ -83,7 +89,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $products = $this->client->products('sku=6354884&active=*');
 
         $this->assertEquals(
-            "/v1/products(sku=6354884&active=*)?format=json&apiKey={$_SERVER['BBY_API_KEY']}",
+            "/v1/products(sku=6354884&active=*)?format=json&apiKey={$this->apiKey}",
             $products->canonicalUrl
         );
         $this->assertEquals(
@@ -99,11 +105,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testProductsAssociative()
     {
-        $client = new Client(['associative' => true, 'debug' => true, 'key' => $_SERVER['BBY_API_KEY']]);
+        $client = new Client(['associative' => true, 'debug' => true, 'key' => $this->apiKey]);
         $products = $client->products('sku=6354884&active=*');
 
         $this->assertEquals(
-            "/v1/products(sku=6354884&active=*)?format=json&apiKey={$_SERVER['BBY_API_KEY']}",
+            "/v1/products(sku=6354884&active=*)?format=json&apiKey={$this->apiKey}",
             $products['canonicalUrl']
         );
         $this->assertEquals(
@@ -122,7 +128,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $recommendations = $this->client->recommendations(Client::RECOMMENDATIONS_TRENDING);
 
         $this->assertEquals(
-            "https://api.bestbuy.com/beta/products/trendingViewed?apiKey={$_SERVER['BBY_API_KEY']}&format=json",
+            "https://api.bestbuy.com/beta/products/trendingViewed?apiKey={$this->apiKey}&format=json",
             $recommendations->metadata->context->canonicalUrl
         );
 
@@ -136,7 +142,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $reviews = $this->client->reviews();
 
-        $this->assertEquals("/v1/reviews?format=json&apiKey={$_SERVER['BBY_API_KEY']}", $reviews->canonicalUrl);
+        $this->assertEquals("/v1/reviews?format=json&apiKey={$this->apiKey}", $reviews->canonicalUrl);
         $this->assertGreaterThan(10000, $reviews->total);
 
         $this->throttle();
