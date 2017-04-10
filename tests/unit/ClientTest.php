@@ -184,6 +184,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testNoKey()
     {
+        unset($_SERVER['BBY_API_KEY']);
         $client = new Client();
         $client->products();
     }
