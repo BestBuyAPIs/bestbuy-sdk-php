@@ -27,6 +27,7 @@
     "require-dev": {
         "phpdocumentor/phpdocumentor": "^2.0",
         "phpunit/phpunit": "^4.8",
+        "satooshi/php-coveralls": "^1.0",
         "squizlabs/php_codesniffer": "^2.0"
     }
 }
