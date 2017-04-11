@@ -171,10 +171,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Throttles calls so we don't get nastygrams. This makes it so we're < 4 calls / second
+     * Throttles calls so we don't get nastygrams
      */
     protected function throttle()
     {
-        usleep(250);
+        usleep(rand(1000, 2000));
     }
 }

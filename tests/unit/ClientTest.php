@@ -15,7 +15,7 @@ use BestBuy\Client;
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * The apiKey (grabbed from $_SERVER for easier use)
+     * The apiKey (grabbed from env for easier use)
      *
      * @var string
      */
@@ -34,7 +34,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->apiKey = getenv('BBY_API_KEY');
-        $this->client = $this->getMock(Client::class, ['doRequest'], [$this->apiKey]);
+        $this->client = $this->getMock('\BestBuy\Client', ['doRequest'], [$this->apiKey]);
         $this->client->expects($this->any())
             ->method('doRequest')
             ->willReturnCallback([$this, 'getGeneratedUrl']);
