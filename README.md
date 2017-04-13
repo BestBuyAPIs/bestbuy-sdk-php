@@ -1,8 +1,8 @@
 # Best Buy SDK for PHP [![Build Status](https://secure.travis-ci.org/BestBuyAPIs/bestbuy-sdk-php.svg?branch=master)](http://travis-ci.org/BestBuyAPIs/bestbuy-sdk-php)
 
-[![License](http://img.shields.io/packagist/l/bestbuy/bestbuy.svg)](https://github.com/BestBuyAPIs/bestbuy-sdk-php/blob/master/LICENSE)
-[![Latest Stable Version](http://img.shields.io/github/release/BestBuyAPIs/bestbuy-sdk-php.svg)](https://packagist.org/packages/bestbuy/bestbuy)
-[![Coverage Status](http://img.shields.io/coveralls/BestBuyAPIs/bestbuy-sdk-php.svg)](https://coveralls.io/r/BestBuyAPIs/bestbuy-sdk-php?branch=master)
+[![License](https://img.shields.io/packagist/l/bestbuy/bestbuy.svg)](https://github.com/BestBuyAPIs/bestbuy-sdk-php/blob/master/LICENSE)
+[![Latest Stable Version](https://img.shields.io/packagist/v/bestbuy/bestbuy.svg)](https://packagist.org/packages/bestbuy/bestbuy)
+[![Coverage Status](https://img.shields.io/coveralls/BestBuyAPIs/bestbuy-sdk-php.svg)](https://coveralls.io/r/BestBuyAPIs/bestbuy-sdk-php?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/bestbuy/bestbuy.svg)](https://packagist.org/packages/bestbuy/bestbuy)
 
 This is a high-level PHP client for the [Best Buy developer API](https://developer.bestbuy.com/).
