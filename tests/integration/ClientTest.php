@@ -161,6 +161,18 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Verifies the warranties endpoint
+     */
+    public function testWarranties()
+    {
+        $warranties = $this->client->warranties(6354884);
+
+        $this->assertEquals(4736900, $warranties[0]->skuId);
+
+        $this->throttle();
+    }
+
+    /**
      * Verifies http errors are flagged as such by the curl handle
      *
      * @expectedException \BestBuy\Exception\ServiceException

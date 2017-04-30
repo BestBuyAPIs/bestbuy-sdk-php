@@ -64,12 +64,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testBuildUrl()
     {
         $this->assertEquals(
-            "https://api.bestbuy.com/v1/products/123.json?view=all&apiKey={$this->apiKey}",
-            $this->getGeneratedUrl(Client::URL_V1, '/products/123.json', ['view' => 'all'])
+            "https://api.bestbuy.com/v1/products/123.json?show=all&apiKey={$this->apiKey}",
+            $this->getGeneratedUrl(Client::URL_V1, '/products/123.json', ['show' => 'all'])
         );
         $this->assertEquals(
-            "https://api.bestbuy.com/beta/openBox(sku%20in(123,456))?view=all&apiKey={$this->apiKey}&format=json",
-            $this->getGeneratedUrl(Client::URL_BETA, '/openBox(sku in(123,456))', ['view' => 'all'])
+            "https://api.bestbuy.com/beta/openBox(sku%20in(123,456))?show=all&apiKey={$this->apiKey}&format=json",
+            $this->getGeneratedUrl(Client::URL_BETA, '/openBox(sku in(123,456))', ['show' => 'all'])
         );
     }
 
@@ -130,9 +130,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 "{$host}/beta/products/trendingViewed(categoryId=abcat0400000)?apiKey={$this->apiKey}&format=json",
                 $this->client->recommendations(Client::RECOMMENDATIONS_TRENDING, 'abcat0400000')
             ], [
-                "{$host}/beta/products/6354884/similar?apiKey={$this->apiKey}&format=json",
-                $this->client->recommendations(Client::RECOMMENDATIONS_SIMILAR, 6354884)
-            ], [
                 "{$host}/v1/reviews?apiKey={$this->apiKey}&format=json",
                 $this->client->reviews()
             ], [
@@ -150,6 +147,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ], [
                 "{$host}/v1/stores(name=eden%20prairie)?apiKey={$this->apiKey}&format=json",
                 $this->client->stores('name=eden prairie')
+            ], [
+                "{$host}/v1/products/6354884/warranties.json?apiKey={$this->apiKey}",
+                $this->client->warranties(6354884)
             ],
         ];
         foreach ($callsAndUrls as $callAndUrl) {
@@ -165,16 +165,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testBadRecommendationMode()
     {
         $this->client->recommendations('bad');
-    }
-
-    /**
-     * Tests checking for SKU for the similar recommendations mode
-     *
-     * @expectedException \BestBuy\Exception\InvalidArgumentException
-     */
-    public function testNoSkuForSimilar()
-    {
-        $this->client->recommendations(Client::RECOMMENDATIONS_SIMILAR);
     }
 
     /**

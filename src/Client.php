@@ -34,11 +34,6 @@ class Client implements LoggerAwareInterface
     const RECOMMENDATIONS_ALSOVIEWED = 'alsoViewed';
 
     /**
-     * The endpoint for similar products (given an input product)
-     */
-    const RECOMMENDATIONS_SIMILAR = 'similar';
-
-    /**
      * The beta URL
      */
     const URL_BETA = 'https://api.bestbuy.com/beta';
@@ -219,11 +214,11 @@ class Client implements LoggerAwareInterface
             // Trending & Most viewed work either globally or on a category level, hence the category ID is optional
             $search = $categoryIdOrSku !== null ? "(categoryId={$categoryIdOrSku})" : '';
             $path = "/products/{$type}{$search}";
-        } elseif ($type == self::RECOMMENDATIONS_ALSOVIEWED || $type == self::RECOMMENDATIONS_SIMILAR) {
+        } elseif ($type == self::RECOMMENDATIONS_ALSOVIEWED) {
             // Similar & Also viewed work on the SKU level, hence the SKU is required
             if ($categoryIdOrSku === null) {
                 throw new InvalidArgumentException(
-                    'For `Client::RECOMMENDATIONS_SIMILAR` & `Client::RECOMMENDATIONS_ALSOVIEWED`, a SKU is required'
+                    'For `Client::RECOMMENDATIONS_ALSOVIEWED`, a SKU is required'
                 );
             }
             $path = "/products/{$categoryIdOrSku}/{$type}";
@@ -304,6 +299,18 @@ class Client implements LoggerAwareInterface
     public function stores($search = '', array $responseConfig = [])
     {
         return $this->simpleEndpoint('stores', $search, $responseConfig);
+    }
+
+    /**
+     * Retrieve warranties for a product
+     *
+     * @param int $sku The SKU to find warranties for
+     * @param array $responseConfig The additional filters to apply to the result set (pagination, view, sort, etc.)
+     * @return array|\StdClass
+     */
+    public function warranties($sku, array $responseConfig = [])
+    {
+        return $this->doRequest(self::URL_V1, "/products/{$sku}/warranties.json", $responseConfig);
     }
 
     /**
