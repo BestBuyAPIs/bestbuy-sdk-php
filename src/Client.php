@@ -34,14 +34,19 @@ class Client implements LoggerAwareInterface
     const RECOMMENDATIONS_ALSOVIEWED = 'alsoViewed';
 
     /**
+     * The root URL
+     */
+    const URL_ROOT = 'https://api.bestbuy.com';
+
+    /**
      * The beta URL
      */
-    const URL_BETA = 'https://api.bestbuy.com/beta';
+    const URL_BETA = self::URL_ROOT . '/beta';
 
     /**
      * The v1 URL
      */
-    const URL_V1 = 'https://api.bestbuy.com/v1';
+    const URL_V1 = self::URL_ROOT . '/v1';
 
     /**
      * The configuration for the class
@@ -67,6 +72,13 @@ class Client implements LoggerAwareInterface
      * @var LoggerInterface
      */
     protected $logger;
+
+    /**
+     * The package version
+     *
+     * @var string
+     */
+    protected $packageVersion = '1.0.4';
 
     /**
      * Creates new instance
@@ -302,6 +314,21 @@ class Client implements LoggerAwareInterface
     }
 
     /**
+     * Retrieves the version of the service from the server & the client version
+     *
+     * @return array|\StdClass
+     */
+    public function version()
+    {
+        $response = [
+            'packageVersion' => $this->packageVersion,
+            'apiVersion' => $this->doRequest(self::URL_ROOT, '/version.txt', ['__raw' => true])
+        ];
+
+        return $this->config['associative'] ? $response : (object)$response;
+    }
+
+    /**
      * Retrieve warranties for a product
      *
      * @param int $sku The SKU to find warranties for
@@ -357,6 +384,12 @@ class Client implements LoggerAwareInterface
      */
     protected function doRequest($root, $path, array $responseConfig = [])
     {
+        // internal response config to return the raw response from the server
+        $raw = array_key_exists('__raw', $responseConfig);
+        if ($raw) {
+            unset($responseConfig['__raw']);
+        }
+
         // Set up the curl request
         $handle = curl_init($this->buildUrl($root, $path, $responseConfig));
         curl_setopt_array(
@@ -366,7 +399,7 @@ class Client implements LoggerAwareInterface
                 CURLOPT_FAILONERROR => true,
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_HTTPHEADER => ['User-Agent' => "bestbuy-sdk-php/1.0.2;php"]
+                CURLOPT_HTTPHEADER => ['User-Agent' => "bestbuy-sdk-php/{$this->packageVersion};php"]
             ] + $this->config['curl_options']
         );
 
@@ -392,7 +425,11 @@ class Client implements LoggerAwareInterface
         }
 
         // Return the response in the configured format
-        return json_decode($response, $this->config['associative']);
+        if ($raw) {
+            return trim($response);
+        } else {
+            return json_decode($response, $this->config['associative']);
+        }
     }
 
     /**

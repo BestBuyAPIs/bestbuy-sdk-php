@@ -37,6 +37,7 @@ This is a high-level PHP client for the [Best Buy developer API](https://develop
  * [Product Recommendations](#Product-Recommendations)
  * [Product Reviews](#Product-Reviews)
  * [Stores](#Stores)
+ * [Version](#Version)
  
 ### Store Availability
 #### `$bby->availability(int|int[]|string $skus, int|int[]|string $stores, [array $responseConfig = []]);`
@@ -108,3 +109,6 @@ This is a high-level PHP client for the [Best Buy developer API](https://develop
     `$bby->stores(611);`
   3. A query for stores<br>
     `$bby->stores('name=eden*');`
+
+### Version
+#### `$bby->version();`

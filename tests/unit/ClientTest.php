@@ -130,6 +130,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 "{$host}/beta/products/trendingViewed(categoryId=abcat0400000)?apiKey={$this->apiKey}&format=json",
                 $this->client->recommendations(Client::RECOMMENDATIONS_TRENDING, 'abcat0400000')
             ], [
+                "{$host}/beta/products/6354884/alsoViewed?apiKey={$this->apiKey}&format=json",
+                $this->client->recommendations(Client::RECOMMENDATIONS_ALSOVIEWED, '6354884')
+            ],[
                 "{$host}/v1/reviews?apiKey={$this->apiKey}&format=json",
                 $this->client->reviews()
             ], [
@@ -150,11 +153,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ], [
                 "{$host}/v1/products/6354884/warranties.json?apiKey={$this->apiKey}",
                 $this->client->warranties(6354884)
-            ],
+            ]
         ];
         foreach ($callsAndUrls as $callAndUrl) {
             $this->assertEquals($callAndUrl[0], $callAndUrl[1]);
         }
+
+        $this->assertObjectHasAttribute('apiVersion', $this->client->version());
     }
 
     /**
@@ -165,6 +170,16 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testBadRecommendationMode()
     {
         $this->client->recommendations('bad');
+    }
+
+    /**
+     * Tests checking the recommendation mode
+     *
+     * @expectedException \BestBuy\Exception\InvalidArgumentException
+     */
+    public function testBadRecommendationMissingArg()
+    {
+        $this->client->recommendations(Client::RECOMMENDATIONS_ALSOVIEWED);
     }
 
     /**

@@ -161,6 +161,18 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Verifies the version endpoint
+     */
+    public function testVersion()
+    {
+        $versions = $this->client->version();
+
+        $this->assertEquals('1.0.844', $versions->apiVersion);
+
+        $this->throttle();
+    }
+
+    /**
      * Verifies the warranties endpoint
      */
     public function testWarranties()
