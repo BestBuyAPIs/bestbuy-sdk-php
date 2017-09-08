@@ -40,13 +40,17 @@ class Client implements LoggerAwareInterface
 
     /**
      * The beta URL
+     *
+     * @TODO - Replace with `self::URL_ROOT . '/beta';` after min PHP version is 5.6
      */
-    const URL_BETA = self::URL_ROOT . '/beta';
+    const URL_BETA = 'https://api.bestbuy.com/beta';
 
     /**
      * The v1 URL
+     *
+     * @TODO - Replace with `self::URL_ROOT . '/v1';` after min PHP version is 5.6
      */
-    const URL_V1 = self::URL_ROOT . '/v1';
+    const URL_V1 = 'https://api.bestbuy.com/v1';
 
     /**
      * The configuration for the class
